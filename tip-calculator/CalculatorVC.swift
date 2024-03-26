@@ -26,7 +26,7 @@ class CalculatorVC: UIViewController {
             tipInputView,
             splitInputView,
             UIView()
-        
+            
         ])
         stackView.axis = .vertical
         stackView.spacing = 36
@@ -65,7 +65,7 @@ class CalculatorVC: UIViewController {
         let input = CalculatorVM.Input(
             billPublisher: billInputView.valuePublisher,
             tipPublisher: tipInputView.valuePublisher,
-            splitPublisher: splitInputView.valuePublisher, 
+            splitPublisher: splitInputView.valuePublisher,
             logoViewTapPublisher: logoViewTapPublisher)
         
         let output = vm.transform(input: input)
@@ -74,8 +74,23 @@ class CalculatorVC: UIViewController {
             resultView.configure(result: result)
         }.store(in: &cancellables)
         
-        output.resetCalculatorPublisher.sink { _ in
-            print("hey, reset the form please")
+        output.resetCalculatorPublisher.sink { [unowned self] _ in
+            billInputView.reset()
+            tipInputView.reset()
+            splitInputView.reset()
+            
+            UIView.animate(
+                withDuration: 0.1,
+                delay: 0,
+                usingSpringWithDamping: 5.0,
+                initialSpringVelocity: 0.5,
+                options: .curveEaseInOut) {
+                    self.logoView.transform = .init(scaleX: 1.5, y: 1.5)
+                } completion: { _ in
+                    UIView.animate(withDuration: 0.1) {
+                        self.logoView.transform = .identity
+                    }
+                }
         }.store(in: &cancellables)
     }
     
@@ -84,7 +99,7 @@ class CalculatorVC: UIViewController {
             view.endEditing(true)
         }.store(in: &cancellables)
     }
-
+    
     private func layout() {
         view.backgroundColor = ThemeColor.bg
         view.addSubview(vStackView)
@@ -118,6 +133,6 @@ class CalculatorVC: UIViewController {
         
         
     }
-
+    
 }
 

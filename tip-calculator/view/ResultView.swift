@@ -19,7 +19,7 @@ class ResultView: UIView {
         let text = NSMutableAttributedString(
             string: "$0",
             attributes: [
-                .font: ThemeFont.bold(ofSize: 40)
+                .font: ThemeFont.bold(ofSize: 48)
             ])
         text.addAttributes([
             .font: ThemeFont.bold(ofSize: 24)
