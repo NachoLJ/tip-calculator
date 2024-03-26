@@ -33,7 +33,7 @@ class CalculatorVC: UIViewController {
     }()
     
     private let vm = CalculatorVM()
-//    private var cancellables = Set<AnyCancellable>()
+    private var cancellables = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +49,10 @@ class CalculatorVC: UIViewController {
             splitPublisher: splitInputView.valuePublisher)
         
         let output = vm.transform(input: input)
+        
+        output.updateViewPublisher.sink { result in
+            print(result)
+        }.store(in: &cancellables)
     }
 
     private func layout() {
