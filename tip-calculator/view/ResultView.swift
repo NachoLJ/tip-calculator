@@ -84,7 +84,7 @@ class ResultView: UIView {
     
     func configure(result: Result) {
         let text = NSMutableAttributedString(
-            string: "$\(result.amountPerPerson.stringValue)",
+            string: result.amountPerPerson.currencyFormatted,
             attributes: [
                 .font: ThemeFont.bold(ofSize: 48)
             ])
@@ -93,8 +93,8 @@ class ResultView: UIView {
         ], range: NSMakeRange(0, 1))
         amountPerPersonLabel.attributedText = text
         
-        totalBillView.configure(text: result.totalBill.stringValue)
-        totalTipView.configure(text: result.totalTip.stringValue)
+        totalBillView.configure(amount: result.totalBill)
+        totalTipView.configure(amount: result.totalTip)
     }
     
     private func layout() {
