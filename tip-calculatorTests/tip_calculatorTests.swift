@@ -14,13 +14,13 @@ final class tip_calculatorTests: XCTestCase {
     // sut -> System Under Test
     private var sut: CalculatorVM!
     private var cancellables: Set<AnyCancellable>!
-    
-    private let logoViewTapSubject = PassthroughSubject<Void, Never>()
+    private var logoViewTapSubject: PassthroughSubject<Void, Never>!
     private var audioPlayerService: MockAudioPlayerService!
     
     override func setUp() {
         audioPlayerService = .init()
         sut = .init(audioPlayerService: audioPlayerService)
+        logoViewTapSubject = .init()
         cancellables = .init()
         super.setUp()
     }
@@ -29,6 +29,8 @@ final class tip_calculatorTests: XCTestCase {
         super.tearDown()
         sut = nil
         cancellables = nil
+        audioPlayerService = nil
+        logoViewTapSubject = nil
     }
     
     func testResultWithoutTipFor1Person() {
@@ -131,7 +133,6 @@ final class tip_calculatorTests: XCTestCase {
             logoViewTapPublisher: logoViewTapSubject.eraseToAnyPublisher())
     }
 }
-
 
 class MockAudioPlayerService: AudioPlayerService {
     var expectation = XCTestExpectation(description: "playSound is called")
