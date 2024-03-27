@@ -72,7 +72,7 @@ class CalculatorScreen {
         app.staticTexts[ScreenIdentifier.SplitInputView.quantityValueLabel.rawValue]
     }
     
-    // Actions
+    // MARK: - Actions
     
     func enterBill(amount: Double) {
         billInputViewTextField.tap()
